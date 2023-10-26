@@ -34,5 +34,6 @@ def count_group_intersection_features(dataset: SimpleDataset) -> SimpleDataset:
     group_avg_stat = joined.groupby(['group_id'])['count'].mean()
     group_avg_stat.name = "group_avg_count"
     joined = joined.join(group_avg_stat, on='group_id')
+    dataset.data = joined
 
-    return joined
+    return dataset
