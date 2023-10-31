@@ -1,15 +1,15 @@
-
+import sys
 from os.path import join
 
 from constants import LOCAL
 
-from dataset import SimpleDataset
+from dataset import Dataset
 
 
 if __name__ == "__main__":
-    dataset = SimpleDataset(
-        join(LOCAL, "data/docs_titles.tsv"),
-        {
+    dataset = Dataset(
+        path_to_titles=join(LOCAL, "data/docs_titles.tsv"),
+        path_to_groups={
             'test': join(LOCAL, "data/test_groups.csv"),
             'train': join(LOCAL, "data/train_groups.csv"),
         }

@@ -9,11 +9,11 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.model_selection import cross_validate
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from dataset import SimpleDataset
+from dataset import Dataset
 
 
 if __name__ == "__main__":
-    dataset = SimpleDataset()
+    dataset = Dataset()
     dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
 
     for k in [25, 50, 100, 150, 200, 250, 500]:

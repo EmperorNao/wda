@@ -1,12 +1,12 @@
 import pandas as pd
-from dataset import SimpleDataset
+from dataset import Dataset
 
 
 def get_words(title: str) -> list:
     return title.split(' ')
 
 
-def count_group_intersection_features(dataset: SimpleDataset) -> SimpleDataset:
+def count_group_intersection_features(dataset: Dataset) -> Dataset:
 
     group_words = {}
     object_words = {}

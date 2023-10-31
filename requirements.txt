@@ -1,6 +1,14 @@
+# html parsing
 lxml
+beautifulsoup4
+
+# text processing
+razdel
+natasha
+
+# ml
 numpy
 pandas
 scikit-learn==1.3.2
-pip install beautifulsoup4
+
 tqdm

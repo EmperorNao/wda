@@ -9,15 +9,15 @@ from sklearn.svm import SVC
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from dataset import SimpleDataset
+from dataset import Dataset
 
 
 if __name__ == "__main__":
-    dataset = SimpleDataset()
+    dataset = Dataset()
     dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
 
-    k = 100
-    C = 0.1
+    k = 50
+    C = 1
     pca = TruncatedSVD(n_components=k, random_state=RANDOM_STATE)
     vectorizer = TfidfVectorizer()
     cls = SVC(class_weight='balanced', C=C, random_state=RANDOM_STATE)
