@@ -61,6 +61,10 @@ class Dataset:
     def from_csv(self, path_to_csv: str):
         self.group_data = pd.read_csv(path_to_csv)
         self.group_data['title'].fillna('', inplace=True)
+        lengths = []
+        for idx, row in self.group_data.iterrows():
+            lengths.append(len(row['title'].split(' ')))
+        self.group_data['title_len'] = lengths
         if 'body' in self.group_data.columns:
             self.group_data['body'].fillna('', inplace=True)
 

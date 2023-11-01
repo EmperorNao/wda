@@ -2,15 +2,16 @@
 lxml
 beautifulsoup4
 
-# text processing
+# data/text processing
 nltk
+pandas
 razdel
 natasha
 
 # ml
 numpy
-pandas
-scikit-learn==1.3.2
+torch
+scikit-learn
 
 tqdm
 matplotlib
