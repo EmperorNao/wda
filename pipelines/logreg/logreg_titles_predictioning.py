@@ -16,9 +16,9 @@ if __name__ == "__main__":
     dataset = Dataset()
     dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
 
-    C = 1000
+    C = 1
     vectorizer = TfidfVectorizer()
-    cls = LogisticRegression(class_weight='balanced', random_state=RANDOM_STATE)
+    cls = LogisticRegression(class_weight='balanced', random_state=RANDOM_STATE, C=C)
 
     # специально фитимся на train + test
     vectorizer.fit_transform(dataset.data['title'])

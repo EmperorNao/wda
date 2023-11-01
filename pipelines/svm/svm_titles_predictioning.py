@@ -13,11 +13,15 @@ from dataset import Dataset
 
 
 if __name__ == "__main__":
+    normalize = True
     dataset = Dataset()
-    dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
+    if normalize:
+        dataset.from_csv(join(LOCAL, 'data/dataset.csv'))
+    else:
+        dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
 
-    k = 50
-    C = 1
+    k = 100
+    C = 0.1
     pca = TruncatedSVD(n_components=k, random_state=RANDOM_STATE)
     vectorizer = TfidfVectorizer()
     cls = SVC(class_weight='balanced', C=C, random_state=RANDOM_STATE)
@@ -28,4 +32,4 @@ if __name__ == "__main__":
     predictions = cls.predict(pca.transform(vectorizer.transform(dataset.test_data['title'])))
 
     df = pd.DataFrame({'target': predictions, 'pair_id': dataset.test_data['pair_id']})
-    df.to_csv(join(LOCAL, "data", f"SVM_titles_k{k}_C{C}_predictions.csv"), header=True, index=False)
+    df.to_csv(join(LOCAL, "data", f"SVM_titles_k{k}_C{C}_normalize{normalize}_predictions.csv"), header=True, index=False)

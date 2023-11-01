@@ -5,6 +5,7 @@ import pandas as pd
 from tqdm import tqdm
 
 from utils.html import HTMLParser
+from utils.text import preprocess_text
 
 
 class Dataset:
@@ -12,11 +13,13 @@ class Dataset:
     def __init__(self,
                  path_to_groups: dict[str, str] = None,
                  path_to_titles: str = None,
-                 path_to_data: str = None
+                 path_to_data: str = None,
+                 features_to_use: tuple[str] = ('title', )
                  ):
         self.path_to_groups = path_to_groups
         self.path_to_titles = path_to_titles
         self.path_to_data = path_to_data
+        self.features_to_use = features_to_use
 
         if self.path_to_groups:
             self.train_group_data = pd.read_csv(path_to_groups['train'])
@@ -43,15 +46,17 @@ class Dataset:
                             self.group_data.loc[self.group_data['doc_id'] == doc_id, 'title'] = title
 
             elif self.path_to_data:
-                self.group_data['title'] = ''
-                self.group_data['body'] = ''
+                for feature in self.features_to_use:
+                    self.group_data[feature] = ''
+
                 parser = HTMLParser()
                 logging.info(logging.INFO, "Loading HTML's {data}".format(data=path_to_data))
                 for doc_id in tqdm(self.group_data['doc_id'].unique()):
                     html_file_path = join(self.path_to_data, "{doc_id}.dat".format(doc_id=doc_id))
-                    title, body = parser.parse_html(html_file_path)
-                    self.group_data.loc[self.group_data['doc_id'] == doc_id, 'title'] = title
-                    self.group_data.loc[self.group_data['doc_id'] == doc_id, 'body'] = body
+                    ret = parser.parse_html(html_file_path, list(self.features_to_use))
+                    for feature in self.features_to_use:
+                        self.group_data.loc[self.group_data['doc_id'] == doc_id, feature] = \
+                            preprocess_text(ret[feature])
 
     def from_csv(self, path_to_csv: str):
         self.group_data = pd.read_csv(path_to_csv)

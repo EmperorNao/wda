@@ -13,8 +13,12 @@ from dataset import Dataset
 
 
 if __name__ == "__main__":
+    normalize = True
     dataset = Dataset()
-    dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
+    if normalize:
+        dataset.from_csv(join(LOCAL, 'data/dataset.csv'))
+    else:
+        dataset.from_csv(join(LOCAL, 'data/simple_data.csv'))
 
     for k in [25, 50, 100, 150, 200, 250, 500]:
         pca = TruncatedSVD(k, random_state=RANDOM_STATE)

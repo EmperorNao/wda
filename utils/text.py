@@ -7,6 +7,11 @@ from natasha import (
     Doc
 )
 
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stopwords_ru = stopwords.words('russian')
+
 
 def lemmatize_text(text: str) -> Doc:
     if not lemmatize_text.initialized:
@@ -30,5 +35,18 @@ def lemmatize_text(text: str) -> Doc:
 lemmatize_text.initialized = False
 
 
-def join_lemmatized_doc(doc: Doc) -> str:
-    return " ".join(token.lemma for token in doc.tokens)
+def get_lemmatized_tokens(doc: Doc) -> list[str]:
+    return [token.lemma for token in doc.tokens]
+
+
+def remove_stop_words(tokens: list[str]) -> list[str]:
+    return list(filter(lambda x: x not in stopwords_ru, tokens))
+
+
+def join_tokens(tokens: list[str]) -> str:
+    return " ".join(tokens)
+
+
+def preprocess_text(text: str):
+    doc = lemmatize_text(text)
+    return join_tokens(remove_stop_words(get_lemmatized_tokens(doc)))
