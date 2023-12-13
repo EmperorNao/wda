@@ -11,6 +11,15 @@ class HTMLParser:
 
         ret = {}
         for parse in parse_list:
-            ret[parse] = parsed.__getattr__(parse).text
+            if parse in ['keywords', 'abstract', 'description']:
+                ret[parse] = ''
+                # print(parsed.find_all('meta'))
+                for meta in parsed.find_all('meta'):
+                    if 'name' in meta.attrs:
+                        if meta.attrs['name'] == parse:
+                            if 'content' in meta.attrs:
+                                ret[parse] += meta.attrs['content'] + ' '
+            else:
+                ret[parse] = parsed.__getattr__(parse).text
 
         return ret
